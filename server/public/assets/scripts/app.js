@@ -6,11 +6,12 @@ var averageSalary, totalSalary, averageTenure, totalTenure;
 $(document).ready(function(){
     getEmployees();
     $("#individualEmployeeInfo").on('click', ".delete", deleteEmployee);
+    $("#individualEmployeeInfo").on('click', ".freeze", toggleFreeze);
 });
 
 
 function getEmployees() {
-    console.log("getting data");
+
     $.ajax({
         type: "GET",
         url: "/data",
@@ -25,7 +26,7 @@ function getEmployees() {
 
 
 function compute(employeeArray){
-    console.log("computing data");
+
     totalSalary = computeTotalSalary(employeeArray).toFixed(2);
     averageSalary = computeAverageSalary(employeeArray).toFixed(2);
     totalTenure = computeTotalTenure(employeeArray);
@@ -37,36 +38,49 @@ function compute(employeeArray){
 function computeTotalSalary(employeeArray) {
     var total = 0;
     for (var i =0; i<employeeArray.length; i++){
-        total+= parseInt(employeeArray[i].salary);
+
+        if (!employeeArray[i].frozen) {
+            total+= parseInt(employeeArray[i].salary);
+        }
     }
 
     return total;
 }
 function computeAverageSalary(employeeArray){
+    var unfrozenEmployee = 0;
     var total = 0;
     var average = 0;
     for (var i =0; i<employeeArray.length; i++){
-        total+= parseInt(employeeArray[i].salary);
+        if (!employeeArray[i].frozen){
+            unfrozenEmployee++;
+            total+= parseInt(employeeArray[i].salary);
+        }
     }
-    average = total/employeeArray.length;
+    average = total/unfrozenEmployee;
 
     return average;
 }
 function computeTotalTenure(employeeArray){
     var total =0;
     for (i=0; i<employeeArray.length; i++){
-        total+=parseInt(employeeArray[i].tenure);
+        if (!employeeArray[i].frozen) {
+            total+=parseInt(employeeArray[i].tenure);
+        }
     }
 
     return total;
 }
 function computeAverageTenure(employeeArray){
+    var unfrozenEmployee = 0;
     var total =0;
     var average =0;
     for (i=0; i<employeeArray.length; i++){
-        total+=parseInt(employeeArray[i].tenure);
+        if (!employeeArray[i].frozen) {
+            unfrozenEmployee++;
+            total+=parseInt(employeeArray[i].tenure);
+        }
     }
-    average = total/employeeArray.length;
+    average = total/unfrozenEmployee;
 
     return average;
 }
@@ -79,14 +93,54 @@ function deleteEmployee(){
         url: "/data",
         data: deleteID,
         success: function(data){
-            console.log(data);
             getEmployees();
         }
-    })
+    });
 }
+function toggleFreeze(){
+    var freezeID = {"id" : $(this).data("id")};
+    if($(this).parent().hasClass('frozen')){
+        console.log('about to unfreeze');
+        unfreezeEmployee(freezeID);
+    }else{
+        console.log('about to freeze');
+        freezeEmployee(freezeID);
+    }
+}
+function freezeEmployee(freezeID){
+    $.ajax({
+        type: "PUT",
+        url: "/data/freeze",
+        data: freezeID,
+        success: function(data){
+            getEmployees();
+
+        }
+    });
+}
+function unfreezeEmployee(freezeID){
+    $.ajax({
+        type: "PUT",
+        url: "/data/unfreeze",
+        data: freezeID,
+        success: function(data){
+            getEmployees();
+            //add data-freeze
+            //getEmployees();
+        }
+    });
+}
+//freeze button
+    //freeze call
+        //a put call?
+
+
+//promote
+
+
 
 function append(employeeArray){
-    console.log("appending data");
+
     appendComputationalInfo();
     appendEmployees(employeeArray);
 }
@@ -100,8 +154,14 @@ function appendEmployees(employeeArray){
             "<p class='display-tenure'>"+ employeeArray[i].tenure + "</p>" +
             "<button class = 'delete btn btn-danger' data-id ='"+
             employeeArray[i]._id+"'>Delete</button>" +
+            "<button class = 'freeze btn btn-warning' data-id ='"+
+            employeeArray[i]._id+"'>Freeze</button>" +
             "</div>";
         $("#individualEmployeeInfo").append(el);
+        if (employeeArray[i].frozen) {
+            $("#individualEmployeeInfo").children().last().addClass("frozen");
+            $("#individualEmployeeInfo").children().last().find('.freeze').text("Unfreeze")
+        }
     }
 
 }

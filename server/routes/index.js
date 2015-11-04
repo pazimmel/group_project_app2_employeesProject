@@ -10,10 +10,28 @@ mongoose.model('Employee',
     new Schema(
         {   "name": String,
             "salary": String,
-            "tenure": String}, { collection: 'employees' }
+            "tenure": String,
+            "frozen": Boolean},
+                { collection: 'employees' }
     ));
 var Employee = mongoose.model('Employee');
 
+//Freeze Route
+router.put('/data/freeze', function(req,res){
+        Employee.update({_id: req.body.id}, {frozen:true}, function(err,data){
+            if (err) console.log(err);
+            res.send(data);
+        });
+    }
+);
+//unfreeze Route
+router.put('/data/unfreeze', function(req,res){
+        Employee.update({_id: req.body.id}, {frozen:false}, function(err,data){
+            if (err) console.log(err);
+            res.send(data);
+        });
+    }
+);
 //Delete Route
 router.delete('/data', function(req,res){
    Employee.findByIdAndRemove({"_id": req.body.id}, function(err,data){
@@ -22,7 +40,7 @@ router.delete('/data', function(req,res){
    });
 });
 
-//Get Routes
+//Get Routes, getting employee data from database
 router.get('/data', function(req, res){
    Employee.find({}, function(err, data){
        if (err) console.log(err);
