@@ -1,0 +1,51 @@
+.display-name{
+    width: 200px;
+    float: left;
+    padding-top: 6px;
+}
+.display-salary{
+    width: 200px;
+    float: left;
+    padding-top: 6px;
+}
+.display-tenure{
+    width: 200px;
+    float: left;
+    padding-top: 6px;
+}
+.computed-total-salary{
+    width: 200px;
+    float: left;
+}
+.computed-avg-salary{
+    width: 200px;
+    float: left;
+}
+.computed-total-tenure{
+    width: 200px;
+    float: left;
+}
+.computed-avg-tenure{
+    width: 200px;
+    float: left;
+}
+.compute-labels{
+    font-weight: bold;
+    font-style: italic;
+    padding-right: 10px;
+}
+.computation-header{
+    padding: 5px;
+}
+.display-row {
+    padding: 5px;
+    border-bottom: 1px solid #eee;
+}
+.display-row:nth-child(odd){
+    background-color: rgb(245, 251, 255);
+}
+#overallEmployeeInfo {
+    height: 35px;
+    border-bottom: 2px solid #666;
+    margin-bottom: 15px;
+}

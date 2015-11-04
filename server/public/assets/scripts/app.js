@@ -29,10 +29,10 @@ function getEmployees() {
         //compute
 
 function compute(employeeArray){
-    totalSalary = computeTotalSalary(employeeArray);
-    averageSalary = computeAverageSalary(employeeArray);
+    totalSalary = computeTotalSalary(employeeArray).toFixed(2);
+    averageSalary = computeAverageSalary(employeeArray).toFixed(2);
     totalTenure = computeTotalTenure(employeeArray);
-    averageTenure = computeAverageTenure(employeeArray);
+    averageTenure = computeAverageTenure(employeeArray).toFixed(2);
 }
 
 //averageSalary = computeAverageSalary(data);
@@ -95,10 +95,10 @@ function append(employeeArray){
 
 function appendEmployees(employeeArray){
     for (var i = 0; i < employeeArray.length; i++) {
-        var el = "<div class = 'well'>" +
-            "<p>" + employeeArray[i].name + "</p>" +
-            "<p>" +employeeArray[i].salary + "</p>" +
-            "<p>"+ employeeArray[i].tenure + "</p>" +
+        var el = "<div class = 'display-row'>" +
+            "<p class='display-name'>" + employeeArray[i].name + "</p>" +
+            "<p class='display-salary'>" +employeeArray[i].salary + "</p>" +
+            "<p class='display-tenure'>"+ employeeArray[i].tenure + "</p>" +
             "<button class = 'delete btn btn-danger' data-id ='"+
             employeeArray[i]._id+"'>Delete</button>" +
             "</div>";
@@ -107,11 +107,11 @@ function appendEmployees(employeeArray){
 
 }
 function appendComputationalInfo(){
-    var el = "<div class = 'well computation_header'>" +
-                "<p>" + totalSalary + "</p>" +
-                "<p>" +averageSalary + "</p>" +
-                "<p>"+ totalTenure + "</p>" +
-                "<p>"+ averageTenure + "</p>"+
+    var el = "<div class = 'computation-header'>" +
+                "<p class='computed-total-salary'><span class='compute-labels'>Tot Salary:</span>$" + totalSalary + "</p>" +
+                "<p class='computed-avg-salary'><span class='compute-labels'>Avg Salary:</span>$" +averageSalary + "</p>" +
+                "<p class='computed-total-tenure'><span class='compute-labels'>Tot Tenure:</span>"+ totalTenure + " Years</p>" +
+                "<p class='computed-avg-tenure'><span class='compute-labels'>Avg Tenure:</span>"+ averageTenure + " Years</p>"+
             "</div>";
     $("#overallEmployeeInfo").append(el);
 }
