@@ -8,13 +8,9 @@ $(document).ready(function(){
     $("#individualEmployeeInfo").on('click', ".delete", deleteEmployee);
 });
 
-//init
-    //divs
 
-//enable
-
-    //ajax call
 function getEmployees() {
+    console.log("getting data");
     $.ajax({
         type: "GET",
         url: "/data",
@@ -26,16 +22,17 @@ function getEmployees() {
     });
 }
 
-        //compute
+
 
 function compute(employeeArray){
+    console.log("computing data");
     totalSalary = computeTotalSalary(employeeArray).toFixed(2);
     averageSalary = computeAverageSalary(employeeArray).toFixed(2);
     totalTenure = computeTotalTenure(employeeArray);
     averageTenure = computeAverageTenure(employeeArray).toFixed(2);
 }
 
-//averageSalary = computeAverageSalary(data);
+
 
 function computeTotalSalary(employeeArray) {
     var total = 0;
@@ -82,18 +79,20 @@ function deleteEmployee(){
         url: "/data",
         data: deleteID,
         success: function(data){
-            compute(data);
-            append(data);
+            console.log(data);
+            getEmployees();
         }
     })
 }
 
 function append(employeeArray){
+    console.log("appending data");
     appendComputationalInfo();
     appendEmployees(employeeArray);
 }
 
 function appendEmployees(employeeArray){
+    $("#individualEmployeeInfo").empty();
     for (var i = 0; i < employeeArray.length; i++) {
         var el = "<div class = 'display-row'>" +
             "<p class='display-name'>" + employeeArray[i].name + "</p>" +
@@ -107,6 +106,7 @@ function appendEmployees(employeeArray){
 
 }
 function appendComputationalInfo(){
+    $("#overallEmployeeInfo").empty();
     var el = "<div class = 'computation-header'>" +
                 "<p class='computed-total-salary'><span class='compute-labels'>Tot Salary:</span>$" + totalSalary + "</p>" +
                 "<p class='computed-avg-salary'><span class='compute-labels'>Avg Salary:</span>$" +averageSalary + "</p>" +
@@ -115,20 +115,3 @@ function appendComputationalInfo(){
             "</div>";
     $("#overallEmployeeInfo").append(el);
 }
-//append DOM
-            //append employees
-            //append total computational info
-    //delete
-        //delete employee
-            //remove employee?
-        //delete call
-            //compute
-            //update DOM
-                //remove employee?
-                //append total computational info
-    //freeze
-        //freeze call
-            //compute
-            //append total computational info
-
-//disable
