@@ -9,7 +9,7 @@ $(document).ready(function(){
     $("#individualEmployeeInfo").on('click', ".freeze", toggleFreeze);
 });
 
-
+//get employees function
 function getEmployees() {
 
     $.ajax({
@@ -24,7 +24,7 @@ function getEmployees() {
 }
 
 
-
+//compute financial and tenure info for employees
 function compute(employeeArray){
 
     totalSalary = computeTotalSalary(employeeArray).toFixed(2);
@@ -34,7 +34,7 @@ function compute(employeeArray){
 }
 
 
-
+//compute total salary for company
 function computeTotalSalary(employeeArray) {
     var total = 0;
     for (var i =0; i<employeeArray.length; i++){
@@ -46,6 +46,7 @@ function computeTotalSalary(employeeArray) {
 
     return total;
 }
+//compute average salary
 function computeAverageSalary(employeeArray){
     var unfrozenEmployee = 0;
     var total = 0;
@@ -60,6 +61,7 @@ function computeAverageSalary(employeeArray){
 
     return average;
 }
+//compute total tenure
 function computeTotalTenure(employeeArray){
     var total =0;
     for (i=0; i<employeeArray.length; i++){
@@ -70,6 +72,7 @@ function computeTotalTenure(employeeArray){
 
     return total;
 }
+//compute average tenure
 function computeAverageTenure(employeeArray){
     var unfrozenEmployee = 0;
     var total =0;
